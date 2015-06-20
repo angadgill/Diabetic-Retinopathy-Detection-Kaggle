@@ -143,13 +143,14 @@ def get_image_filenames(dir):
 def main():
     # Import image as grayscale
     # image = misc.imread('data/sample/16_left.jpeg', flatten=1)
-    dir = 'processed/run-normal/data/sample/'
+    dir = 'data/sample/'
     filenames = get_image_filenames(dir)
     print filenames
 
     for filename in filenames:
         image = misc.imread(path.join(dir,filename), flatten=1)
         print filename, is_inverted_vert(image, filename)
+
 
     # image = misc.imread('processed/run-normal/data/sample/15_left.jpeg', flatten=1)
     # print is_inverted(image)
