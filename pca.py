@@ -9,9 +9,8 @@ def fit_transform(m, dimension, images, n_components):
     #m = 5000
     #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
-    print "Loading images data..."
+    #print "Loading images data..."
     #images = np.load('images-'+size+'.npy')
-    images = images
     #n_components = 40
     # batch_size = 100
     # pca = IncrementalPCA(n_components=n_components, batch_size=batch_size)
@@ -19,6 +18,6 @@ def fit_transform(m, dimension, images, n_components):
     print "Running PCA..."
     images_reduced = pca.fit_transform(images)
     print "Done."
-    np.save('images40-'+size, images_reduced)
-    print 'Image binary with PCA saved: images40-'+size
+    np.save('images'+str(n_components)+'-'+size, images_reduced)
+    print 'Image binary with PCA saved: images'+str(n_components)+'-'+size
     return images_reduced

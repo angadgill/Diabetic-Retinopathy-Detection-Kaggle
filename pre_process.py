@@ -28,8 +28,9 @@ def extract(m, dimension):
 
     images = []
     y = []
+    print "Importing images..."
     for (i, filename) in enumerate(filenames):
-        print i
+        #print i
         image = misc.imread(path.join(dir, filename), flatten=1)
         (r, c) = image.shape
         image = image.reshape(r*c)
@@ -40,7 +41,6 @@ def extract(m, dimension):
     images = np.array(images)
     print "Saving images"
     np.save('images-'+size, images)
-    print "Done."
     print "Converting y to a numpy array..."
     y = np.array(y)
     print "Saving y"

@@ -8,16 +8,17 @@ def predict(m, dimension, images_reduced, y):
     #m = 5000
     #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
-    print "Loading images data"
+    #print "Loading images data"
     #images_red = np.load('images40-'+size+'.npy')
-    print "Loading y data"
+    #print "Loading y data"
     #y = np.load('y-'+size+'.npy')
 
     clf = SVC()
     data_split = int(m/2)
-    print "Running SVM"
+    print "Running SVM..."
     clf.fit(images_reduced[:data_split],y[:data_split])
     score = clf.score(images_reduced[data_split:], y[data_split:])
+    print "Done."
     #print 'Done. Score:', score
 
     predictions = clf.predict(images_reduced)

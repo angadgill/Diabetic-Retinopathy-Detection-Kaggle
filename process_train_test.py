@@ -6,12 +6,12 @@ import svm
 import kappa
 
 
-def main():
-    m = 500
-    dimension = 256
+def do(m, dimension, n_components):
+    #m = 1000
+    #dimension = 256
     (images, y) = pre_process.extract(m, dimension)
 
-    n_components = 40
+    #n_components = 100
     images_reduced = pca.fit_transform(m, dimension, images, n_components)
 
     (pred, svm_score) = svm.predict(m, dimension, images_reduced, y)
@@ -20,7 +20,3 @@ def main():
 
     print "kappa score: ", kappa_score
     print "svm score: ", svm_score
-
-
-if __name__ == '__main__':
-    main()
