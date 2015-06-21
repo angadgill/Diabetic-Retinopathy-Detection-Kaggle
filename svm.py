@@ -4,19 +4,23 @@ import numpy as np
 from sklearn.svm import SVC
 
 
-def main():
-    m = 5000
-    dimension = 1024
+def predict(m, dimension, images_reduced, y):
+    #m = 5000
+    #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
-    images = np.load('images40-'+size+'.npy')
-    y = np.load('y-'+size+'.npy')
+    print "Loading images data"
+    #images_red = np.load('images40-'+size+'.npy')
+    print "Loading y data"
+    #y = np.load('y-'+size+'.npy')
+
     clf = SVC()
     data_split = int(m/2)
-    clf.fit(images[:data_split],y[:data_split])
-    print 'Score:', clf.score(images[data_split:], y[data_split:])
+    print "Running SVM"
+    clf.fit(images_reduced[:data_split],y[:data_split])
+    score = clf.score(images_reduced[data_split:], y[data_split:])
+    #print 'Done. Score:', score
 
-    predictions = np.array((clf.predict(images), y)).T
-    np.savetxt('predictions-'+size+'.csv', predictions, delimiter=',', fmt='%d')
+    predictions = clf.predict(images_reduced)
+    np.savetxt('predictions-'+size+'.csv', np.array((clf.predict(images_reduced), y)).T, delimiter=',', fmt='%d')
 
-if __name__ == "__main__":
-    main()
+    return (predictions, score)

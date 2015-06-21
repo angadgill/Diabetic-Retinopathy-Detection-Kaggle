@@ -17,9 +17,9 @@ def get_image_filenames(dir):
     return filenames
 
 
-def main():
-    m = 5000
-    dimension = 1024
+def extract(m, dimension):
+    #m = 5000
+    #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
     dir = 'processed/data/train-'+size+'/'
     filenames = get_image_filenames(dir)
@@ -47,7 +47,4 @@ def main():
     np.save('y-'+size, y)
     print "Done."
     print 'Image binary and Y values saved: images-'+size+' and y-'+size
-
-
-if __name__ == "__main__":
-    main()
+    return (images, y)
