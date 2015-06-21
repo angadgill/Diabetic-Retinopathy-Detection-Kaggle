@@ -36,10 +36,16 @@ def main():
         images += [image]
         y_val = trainLabels.loc[filename.split('.')[0]][0]
         y += [y_val]
+    print "Converting images to a numpy array..."
     images = np.array(images)
-    y = np.array(y)
+    print "Saving images"
     np.save('images-'+size, images)
+    print "Done."
+    print "Converting y to a numpy array..."
+    y = np.array(y)
+    print "Saving y"
     np.save('y-'+size, y)
+    print "Done."
     print 'Image binary and Y values saved: images-'+size+' and y-'+size
 
 
