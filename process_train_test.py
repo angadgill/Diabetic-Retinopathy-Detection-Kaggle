@@ -16,7 +16,14 @@ def do(m, dimension, n_components, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=
 
     (pred, svm_score) = svm.predict(m, dimension, images_reduced, y, SAVE)
 
-    kappa_score = quadratic_weighted_kappa(pred, y, min_rating=0, max_rating=4)
+    kappa_score_train = quadratic_weighted_kappa(pred[:m/2], y[:m/2], min_rating=0, max_rating=4)
+    kappa_score_test = quadratic_weighted_kappa(pred[m/2:], y[m/2:], min_rating=0, max_rating=4)
+    kappa_score_all = quadratic_weighted_kappa(pred, y, min_rating=0, max_rating=4)
 
-    print "kappa score: ", kappa_score
+    print "kappa score for train: ", kappa_score_train
+    print "kappa score for test: ", kappa_score_test
+    print "kappa score for all data: ", kappa_score_all
     print "svm score: ", svm_score
+
+if __name__ == '__main__':
+    do(1000, 256, 40, True, True, False)

@@ -13,10 +13,22 @@ def predict(m, dimension, images_reduced, y, SAVE=True):
     #print "Loading y data"
     #y = np.load('y-'+size+'.npy')
 
-    clf = SVC()
+    clf = SVC(class_weight='auto')
     data_split = int(m/2)
     print "Running SVM..."
-    clf.fit(images_reduced[:data_split],y[:data_split])
+    (unique_values, counts) = np.unique(y, return_counts=True)
+    weights = 1 - (counts.astype('float')/m)
+    weight_dict = {}
+    for i, weight in enumerate(weights):
+        weight_dict[i] = weight
+    sample_weight = []
+    for i in range(m):
+        sample_weight += [weight_dict[y[i]]]
+
+    #print y
+    #print sample_weight
+
+    clf.fit(images_reduced[:data_split],y[:data_split], sample_weight=sample_weight[:data_split])
     score = clf.score(images_reduced[data_split:], y[data_split:])
     #print 'Done. Score:', score
 

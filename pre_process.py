@@ -78,6 +78,7 @@ def extract(m, dimension, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=True):
     print "%d right images flipped." % right
     print "Converting images to a numpy array..."
     images = np.array(images)
+    # TODO: mean-center images
     print "Converting y to a numpy array..."
     y = np.array(y)
     if SAVE:
