@@ -3,7 +3,7 @@ __author__ = 'angad'
 import pre_process
 import pca
 import svm
-import kappa
+from quadratic_weighted_kappa import quadratic_weighted_kappa
 
 
 def do(m, dimension, n_components, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=True):
@@ -16,7 +16,7 @@ def do(m, dimension, n_components, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=
 
     (pred, svm_score) = svm.predict(m, dimension, images_reduced, y, SAVE)
 
-    kappa_score = kappa.score(y, pred)
+    kappa_score = quadratic_weighted_kappa(pred, y, min_rating=0, max_rating=4)
 
     print "kappa score: ", kappa_score
     print "svm score: ", svm_score
