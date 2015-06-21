@@ -44,7 +44,7 @@ def get_image_filenames(dir):
     return filenames
 
 
-def extract(m, dimension):
+def extract(m, dimension, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=True):
     #m = 5000
     #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
@@ -55,28 +55,35 @@ def extract(m, dimension):
 
     images = []
     y = []
+    inverted = 0
+    right = 0
     print "Importing images..."
     for (i, filename) in enumerate(filenames):
         #print i
         image = misc.imread(path.join(dir, filename), flatten=1)
-        if is_inverted_vert(image, filename):
-            image = np.fliplr(np.flipud(image))
-            print "Inverted image detected and flipped!"
-        if 'right' in filename:
-            image = np.fliplr(image)
+        if FIX_INVERTED:
+            if is_inverted_vert(image, filename):
+                image = np.fliplr(np.flipud(image))
+                inverted += 1
+        if FIX_RIGHT_LEFT:
+            if 'right' in filename:
+                image = np.fliplr(image)
+                right += 1
         (r, c) = image.shape
         image = image.reshape(r*c)
         images += [image]
         y_val = trainLabels.loc[filename.split('.')[0]][0]
         y += [y_val]
+    print "%d inverted images fixed." % inverted
+    print "%d right images flipped." % right
     print "Converting images to a numpy array..."
     images = np.array(images)
-    print "Saving images"
-    np.save('images-'+size, images)
     print "Converting y to a numpy array..."
     y = np.array(y)
-    print "Saving y"
-    np.save('y-'+size, y)
-    print "Done."
-    print 'Image binary and Y values saved: images-'+size+' and y-'+size
+    if SAVE:
+        print "Saving images"
+        np.save('images-'+size, images)
+        print "Saving y"
+        np.save('y-'+size, y)
+        print 'Image binary and Y values saved: images-'+size+' and y-'+size
     return (images, y)

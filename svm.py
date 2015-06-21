@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.svm import SVC
 
 
-def predict(m, dimension, images_reduced, y):
+def predict(m, dimension, images_reduced, y, SAVE=True):
     #m = 5000
     #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
@@ -18,10 +18,11 @@ def predict(m, dimension, images_reduced, y):
     print "Running SVM..."
     clf.fit(images_reduced[:data_split],y[:data_split])
     score = clf.score(images_reduced[data_split:], y[data_split:])
-    print "Done."
     #print 'Done. Score:', score
 
     predictions = clf.predict(images_reduced)
-    np.savetxt('predictions-'+size+'.csv', np.array((clf.predict(images_reduced), y)).T, delimiter=',', fmt='%d')
+
+    if SAVE:
+        np.savetxt('predictions-'+size+'.csv', np.array((clf.predict(images_reduced), y)).T, delimiter=',', fmt='%d')
 
     return (predictions, score)

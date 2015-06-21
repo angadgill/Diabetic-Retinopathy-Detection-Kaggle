@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 # from sklearn.decomposition import IncrementalPCA
 
 
-def fit_transform(m, dimension, images, n_components):
+def fit_transform(m, dimension, images, n_components, SAVE=True):
     #m = 5000
     #dimension = 512
     size = str(m)+'-'+str(dimension)+'x'+str(dimension)
@@ -17,7 +17,7 @@ def fit_transform(m, dimension, images, n_components):
     pca = PCA(n_components=n_components)
     print "Running PCA..."
     images_reduced = pca.fit_transform(images)
-    print "Done."
-    np.save('images'+str(n_components)+'-'+size, images_reduced)
-    print 'Image binary with PCA saved: images'+str(n_components)+'-'+size
+    if SAVE:
+        np.save('images'+str(n_components)+'-'+size, images_reduced)
+        print 'Image binary with PCA saved: images'+str(n_components)+'-'+size
     return images_reduced
