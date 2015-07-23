@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from scipy import misc
 import cv2
+from sklearn.preprocessing import scale
 
 
 def is_inverted_vert(image, filename):
@@ -78,7 +79,12 @@ def extract(m, dimension, FIX_INVERTED=True, FIX_RIGHT_LEFT=True, SAVE=True):
     print "%d right images flipped." % right
     print "Converting images to a numpy array..."
     images = np.array(images)
-    # TODO: mean-center images
+
+    # Feature scaling
+    print "Scaling images..."
+    images = scale(images, axis=0, with_mean=True, with_std=True, copy=False)
+    images = scale(images, axis=1, with_mean=True, with_std=True, copy=False)
+
     print "Converting y to a numpy array..."
     y = np.array(y)
     if SAVE:

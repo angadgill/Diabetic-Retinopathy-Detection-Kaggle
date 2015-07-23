@@ -2,6 +2,7 @@ __author__ = 'angad'
 
 import numpy as np
 from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 
 
 def predict(m, dimension, images_reduced, y, SAVE=True):
@@ -13,9 +14,12 @@ def predict(m, dimension, images_reduced, y, SAVE=True):
     #print "Loading y data"
     #y = np.load('y-'+size+'.npy')
 
-    clf = SVC(class_weight='auto')
+    #clf = SVC(class_weight='auto')
+    clf = LogisticRegression(class_weight='auto', C=10)
+    clf.verbose=1
     data_split = int(m/2)
-    print "Running SVM..."
+    #print "Running SVM..."
+    print "Running Logistic Regression..."
     (unique_values, counts) = np.unique(y, return_counts=True)
     weights = 1 - (counts.astype('float')/m)
     weight_dict = {}
@@ -28,13 +32,14 @@ def predict(m, dimension, images_reduced, y, SAVE=True):
     #print y
     #print sample_weight
 
-    clf.fit(images_reduced[:data_split],y[:data_split], sample_weight=sample_weight[:data_split])
+    #clf.fit(images_reduced[:data_split],y[:data_split], sample_weight=sample_weight[:data_split])
+    clf.fit(images_reduced[:data_split],y[:data_split])
     score = clf.score(images_reduced[data_split:], y[data_split:])
     #print 'Done. Score:', score
 
     predictions = clf.predict(images_reduced)
 
     if SAVE:
-        np.savetxt('predictions-'+size+'.csv', np.array((clf.predict(images_reduced), y)).T, delimiter=',', fmt='%d')
+        np.savetxt('predictions-'+size+'.csv', np.array((clf.predict(images_reduced), y)).T, delimiter=',', fmt='%d', header='Prediction, y')
 
     return (predictions, score)
