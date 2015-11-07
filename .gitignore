@@ -4,3 +4,4 @@ data/
 *.npy
 processed/
 *.csv
+*.pyc
